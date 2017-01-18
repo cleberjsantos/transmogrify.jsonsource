@@ -2,6 +2,7 @@
 
 from collective.transmogrifier.interfaces import ISection
 from collective.transmogrifier.interfaces import ISectionBlueprint
+from collective.transmogrifier.utils import Expression, Condition
 from collective.transmogrifier.utils import resolvePackageReferenceOrFile
 try:
     import simplejson as json
@@ -27,6 +28,13 @@ class JsonFilesystemSource(object):
         self.previous = previous
         self.context = transmogrifier.context
 
+        self.key = Expression(options['key'], transmogrifier, name, options)
+        self.value = Expression(options['value'], transmogrifier, name,
+                                options)
+
+        self.condition = Condition(options.get('condition', 'python:True'),
+                                   transmogrifier, name, options)
+
         self.debug = options.get('debug', False)
         self.filename = options.get('filename','data.json')
         path = resolvePackageReferenceOrFile(options.get('path',''))
@@ -38,6 +46,9 @@ class JsonFilesystemSource(object):
 
     def __iter__(self):
         for item in self.previous:
+            key = self.key(item)
+            if self.condition(item, key=key):
+                item[key] = self.value(item, key=key)
             yield item
 
         i = 0
@@ -45,7 +56,6 @@ class JsonFilesystemSource(object):
             i += 1
             if self.debug:
                 self.logger.debug(pformat(item))
-                pprint(item['_path'])
             yield item
 
         print i
@@ -53,13 +63,13 @@ class JsonFilesystemSource(object):
     def _files(self,root):
         """Return a list of jsonified files that we need to import.
         """
-        filename = self.filename 
+        filename = self.filename
         files = (p for p, d, f in os.walk(root) if filename in f)
         f = [f for f in files]
         f.sort()
         files = [os.path.join(path, filename) for path in f]
         return files
-    
+
     def _unjsonify(self, root, filter_types=None, filter_sections=None):
         """Load a list of jsonified objects.
         """

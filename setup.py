@@ -10,14 +10,9 @@ long_desc = (
     open('CHANGES.rst').read()
 )
 tests_require = [
-    'plone.app.robotframework',
-    'plone.app.testing [robot]',
-    'plone.browserlayer',
-    'plone.registry',
+    'plone.app.testing',
     'plone.testing',
-    'robotsuite',
     'unittest2',
-    'z3c.relationfield',
     'zope.component',
     'zope.intid',
 ]
@@ -52,8 +47,8 @@ setup(name='transmogrify.jsonsource',
       install_requires=[
           'setuptools',
           'collective.transmogrifier',
-          'plone.api',
           'plone.app.transmogrifier',
+          'Products.CMFCore',
       ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
