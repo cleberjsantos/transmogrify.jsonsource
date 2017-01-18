@@ -1,0 +1,39 @@
+Metadata-Version: 1.1
+Name: transmogrify.jsonsource
+Version: 1.0.dev0
+Summary: Transmogrifier source for reading JSON files from the filesystem
+Home-page: http://pypi.python.org/pypi/transmogrify.jsonsource
+Author: Cleber J Santos
+Author-email: cleber@cleberjsantos.com.br
+License: GPL
+Description: Introduction
+        ============
+        
+        TODO
+        ----
+        
+        - General support for all fields
+        - Tests
+        
+        
+        Changelog
+        =========
+        
+        
+        1.0dev0 (2017-01-18)
+        --------------------
+        
+        - Initial development
+          [cleberjsantos]
+        
+Keywords: plone transmogrifier json filesystem
+Platform: UNKNOWN
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: 4.3
+Classifier: Framework :: Plone :: 5.0
+Classifier: Framework :: Plone :: 5.1
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

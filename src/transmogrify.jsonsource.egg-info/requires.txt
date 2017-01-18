@@ -1,0 +1,16 @@
+setuptools
+collective.transmogrifier
+plone.api
+plone.app.transmogrifier
+
+[tests]
+plone.app.robotframework
+plone.app.testing [robot]
+plone.browserlayer
+plone.registry
+plone.testing
+robotsuite
+unittest2
+z3c.relationfield
+zope.component
+zope.intid

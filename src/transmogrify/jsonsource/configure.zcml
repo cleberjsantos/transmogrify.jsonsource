@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="transmogrify.jsonsource">
+
+    <include package="collective.transmogrifier" file="meta.zcml" />
+    <include package="collective.transmogrifier" />
+    
+    <utility
+        component=".source.JsonFilesystemSource"
+        name="transmogrify.jsonsource"
+        />
+
+</configure>
+
