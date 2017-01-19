@@ -4,10 +4,12 @@ from collective.transmogrifier.interfaces import ISection
 from collective.transmogrifier.interfaces import ISectionBlueprint
 from collective.transmogrifier.utils import Expression, Condition
 from collective.transmogrifier.utils import resolvePackageReferenceOrFile
+
 try:
     import simplejson as json
 except ImportError:
     import json
+
 import logging
 import os
 import re
@@ -28,28 +30,26 @@ class JsonFilesystemSource(object):
         self.previous = previous
         self.context = transmogrifier.context
 
-        self.key = Expression(options['key'], transmogrifier, name, options)
-        self.value = Expression(options['value'], transmogrifier, name,
-                                options)
-
         self.condition = Condition(options.get('condition', 'python:True'),
                                    transmogrifier, name, options)
-
         self.debug = options.get('debug', False)
+
         self.filename = options.get('filename','data.json')
-        path = resolvePackageReferenceOrFile(options.get('path',''))
-        types = options.get('types',[]).strip('\n').rsplit('\n')
-        sections = options.get('sections',[]).strip('\n').rsplit('\n')
-        self.results = self._unjsonify(path, types, sections)
+        self.path = resolvePackageReferenceOrFile(options.get('path',''))
+        self.types = options.get('types',[]).strip('\n').rsplit('\n')
+        self.sections = options.get('sections',[]).strip('\n').rsplit('\n')
+
+        self.results = self._unjsonify(self.path, self.types, self.sections)
+
+        if self.path is None or not os.path.isdir(self.path):
+            raise Exception('Path (' + str(self.path) + ') does not exists.')
 
         self.logger = logging.getLogger(name)
 
     def __iter__(self):
         for item in self.previous:
-            key = self.key(item)
-            if self.condition(item, key=key):
-                item[key] = self.value(item, key=key)
-            yield item
+            if self.condition(item):
+                yield item
 
         i = 0
         for item in self.results:
