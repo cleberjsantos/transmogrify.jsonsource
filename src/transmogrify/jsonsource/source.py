@@ -36,8 +36,8 @@ class JsonFilesystemSource(object):
 
         self.filename = options.get('filename','data.json')
         self.path = resolvePackageReferenceOrFile(options.get('path',''))
-        self.types = options.get('types',[]).strip('\n').rsplit('\n')
-        self.sections = options.get('sections',[]).strip('\n').rsplit('\n')
+        self.types = options.get('types',[])
+        self.sections = options.get('sections',[])
 
         self.results = self._unjsonify(self.path, self.types, self.sections)
 
